@@ -1,4 +1,4 @@
-.libPaths("/site-library")
+.libPaths("/home/vcap/app/vendor/site-library")
 library(shiny)
 
 port <- Sys.getenv('PORT')

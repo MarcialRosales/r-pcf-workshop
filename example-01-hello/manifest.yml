@@ -1,6 +1,7 @@
 applications:
  - name: example-01
-   buildpack: https://github.com/wjjung317/heroku-buildpack-r.git
-   command: R --no-save --gui-none < /app/startscript.R
+#   buildpack: https://github.com/MarcialRosales/r-buildpack.git
+   buildpack: https://github.com/wjjung317/heroku-buildpack-r
+   command: R --no-save --gui-none < /home/vcap/app/startscript.R
    instances: 1
    memory: 2G
