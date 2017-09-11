@@ -1,0 +1,29 @@
+{
+  "user-provided": [
+   {
+    "credentials": {
+     "url": "oracle://server.com",
+     "user" : "bob",
+     "password" : "pwd",
+     "database" : "somedb"
+    },
+    "label": "user-provided",
+    "name": "oracle-db",
+    "syslog_drain_url": "",
+    "tags": [],
+    "volume_mounts": []
+   },
+   {
+    "credentials": {
+     "url": "impala://server.com",
+     "user" : "bill",
+     "password" : "pwd"
+    },
+    "label": "user-provided",
+    "name": "impala-db",
+    "syslog_drain_url": "",
+    "tags": [],
+    "volume_mounts": []
+   }
+  ]
+ }

@@ -1,0 +1,6 @@
+zipcode,centile,superzip,rank,city,state,adultpop,households,college,income
+38157,99.99999,1,,Memphis,TN,17,5,100%,261.5213
+60043,99.99955,1,1,Kenilworth,IL,1581,732,88.86
+19732,99.99911,1,,Rockland,DE,46,19,84.78261%,261.5213
+77010,99.99908,1,,Houston,TX,53,19,83.01887%,261.5213
+10597,99.99901,1,,Waccabuc,NY,215,83,80.93023%,261.5213

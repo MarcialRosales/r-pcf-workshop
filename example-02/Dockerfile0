@@ -1,0 +1,26 @@
+FROM r-base:latest
+
+MAINTAINER Flavio Barros "flaviommbarros@gmail.com"
+
+RUN apt-get update && apt-get install -y \
+    sudo \
+    gdebi-core
+
+# Download and install shiny server
+COPY ss-latest.deb /tmp
+RUN gdebi -n tmp/ss-latest.deb
+
+RUN mkdir -p /app/app
+COPY init.r /app
+COPY startscript.R /app
+COPY app/* /app/app/
+
+RUN R --no-save --gui-none < /app/init.r
+
+ENV PORT 8080
+EXPOSE 8080
+
+
+WORKDIR /app
+
+ENTRYPOINT R --no-save --gui-none < /app/startscript.R

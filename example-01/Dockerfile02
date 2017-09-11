@@ -1,0 +1,23 @@
+FROM cloudfoundry/cflinuxfs2:latest
+
+RUN apt-get update && apt-get install -y \
+    sudo \
+    gdebi-core
+
+ENV R_BASE_VERSION 3.4.0
+
+RUN echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list && \
+  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && \
+  gpg -a --export E084DAB9 | sudo apt-key add -
+
+RUN apt-get update && apt-get -y install r-base
+
+RUN R -e 'install.packages("shiny", repos = "http://cran.rstudio.com/")'
+RUN R -e "capabilities()"
+
+COPY startscript.R /app
+COPY app/* /app/
+
+ENV PORT 8080
+
+ENTRYPOINT R --no-save --gui-none < /app/startscript.R
