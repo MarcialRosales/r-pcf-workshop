@@ -249,30 +249,7 @@ Starting from the `example-01` we applied the following changes:
 
   ```
 
-# <a name="quick-intro-buildpack"></a> Quick Introduction to Buildpacks
-
-> Note: Continue with slides "06-buildpacks.ppt"
-
-Why buildpacks?
-- Control what frameworks/runtimes are used on the platform
-- Provides consistent deployments across environments:
-  - Stops deployments from piling up at operation’s doorstep
-  - Enables a self-service platform
-- Eases ongoing operations burdens:
-  - Security vulnerability is identified
-  - Subsequently fixed with a new buildpack release
-  - Restage applications
-
-
-We have pushed two applications, an R application and a static web site. We know to deploy a static web site we need a web server like Apache or Nginx. And to deploy an R application we need the R runtime.
-
-From [Static buildpack](https://docs.cloudfoundry.org/buildpacks/staticfile/#staticfile) ...
-> Cloud Foundry requires a file named Staticfile in the root directory of the app to use the Staticfile buildpack with the app.
-
-From [R buildpack](https://github.com/wjjung317/heroku-buildpack-r#usage) ...
-> The buildpack will detect your app makes use of R if it has the init.r file in the root. The R runtime is vendored into your slug, and includes the gcc compiler for fortran support.
-
-## Deploying applications with application manifest
+## <a name="manifest"></a> Deploying applications with application manifest
 
 Rather than passing a potentially long list of parameters to `cf push` we are going to move those parameters to a file so that we don't need to type them everytime we want to push an application. This file is called  *Application Manifest*.
 
@@ -302,7 +279,7 @@ applications:
 - [ ] CloudFoundry builds images from our applications. It uses a set of scripts to build images called buildpacks. There are buildpacks for different type of applications. CloudFoundry will automatically detect the type of application however we can tell CloudFoundry which buildpack we want to use. (`buildpack`)
 - [ ] specify services the application needs (`services`)
 
-## Platform guarantees
+## <a name="platform"></a> Platform guarantees
 
 We have seen how we can scale our application (`cf scale -i #` or `cf push  ... -i #`). When we specify the number of instances, we create implicitly creating a contract with the platform. The platform will try its best to guarantee that the application has those instances. Ultimately the platform depends on the underlying infrastructure to provision new instances should some of them failed. If the infrastructure is not ready available, the platform wont be able to comply with the contract. Besides this edge case, the platform takes care of our application availability.
 
@@ -314,7 +291,34 @@ If we have +1 instances, we have zero-downtime because the other instances are a
 
 The platform uses the health-check-type configured for the application in order to monitor and determine its status.  There are several types of `health-check-type`: `process` (only necessary when we dont expose any TPC port), `port` (default) and `http` (it must expose a http port and must return 200 OK. We can specify the endpoint with `--endpoint <path>`).
 
+# <a name="quick-intro-buildpack"></a> Quick Introduction to Buildpacks
+
+> Note: Continue with slides "06-buildpacks.ppt"
+
+Why buildpacks?
+- Control what frameworks/runtimes are used on the platform
+- Provides consistent deployments across environments:
+  - Stops deployments from piling up at operation’s doorstep
+  - Enables a self-service platform
+- Eases ongoing operations burdens:
+  - Security vulnerability is identified
+  - Subsequently fixed with a new buildpack release
+  - Restage applications
+
+
+We have pushed two applications, an R application and a static web site. We know to deploy a static web site we need a web server like Apache or Nginx. And to deploy an R application we need the R runtime.
+
+From [Static buildpack](https://docs.cloudfoundry.org/buildpacks/staticfile/#staticfile) ...
+> Cloud Foundry requires a file named Staticfile in the root directory of the app to use the Staticfile buildpack with the app.
+
+From [R buildpack](https://github.com/wjjung317/heroku-buildpack-r#usage) ...
+> The buildpack will detect your app makes use of R if it has the init.r file in the root. The R runtime is vendored into your slug, and includes the gcc compiler for fortran support.
+
+
 # <a name="troubleshooting-hints"></a> Troubleshooting hints
+
+## Access your application via ssh
+https://docs.pivotal.io/pivotalcf/1-11/devguide/deploy-apps/ssh-apps.html
 
 ## Find the cell(s) an application is running on
 Sometimes the application fails we don't really understand why it is failing. There is nothing the logs. We want to access the physical VM where the application's container is running.
@@ -335,6 +339,7 @@ You want to know exactly which files and directory layout our application is run
     cf curl /v2/apps/9caddd73-706c-4f82-bb63-b1435bd6240d/droplet/download > droplet.tar.gz
     tar -zxf droplet.tar.gz
     ```
+
 
 # <a name="domains"></a>Domains & Routing Services
 
